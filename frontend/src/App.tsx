@@ -1,5 +1,13 @@
+import { Sidebar } from "./components/Sidebar";
+
 function App() {
-  return <div>Hi there</div>;
+  return (
+    <main className="flex bg-red-500">
+      {/* <Sidebar />
+      <MainComponent /> */}
+      Hi there
+    </main>
+  );
 }
 
 export default App;
