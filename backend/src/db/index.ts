@@ -26,6 +26,11 @@ const subPostSchema = new mongoose.Schema({
 const PostSchema = new mongoose.Schema({
   uniqueId: Number,
   title: String,
+  color: {
+    type: String,
+    enum: ["purple", "pink", "green", "orange", "blue", "navyblue"],
+    required: true,
+  },
   subPosts: [subPostSchema],
 });
 

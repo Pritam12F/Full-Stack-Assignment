@@ -3,6 +3,7 @@ import z from "zod";
 export const PostCreateSchema = z.object({
   uniqueId: z.number(),
   title: z.string(),
+  color: z.enum(["purple", "pink", "green", "orange", "blue", "navyblue"]),
 });
 
 export const FindPostSchema = z.object({

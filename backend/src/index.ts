@@ -10,7 +10,7 @@ app.use(cors());
 app.get("/getallposts", async (req, res) => {
   const allPosts = await post.find({});
 
-  res.json({
+  return res.json({
     allPosts,
   });
 });
@@ -19,45 +19,58 @@ app.get("/getindvidualpost", async (req, res) => {
   const { success } = FindPostSchema.safeParse(req.body);
 
   if (!success) {
-    res.status(411).json({
+    return res.status(411).json({
       error: "Invalid id!",
     });
   }
   const id = await req.body.id;
 
-  const uniquePost = await post.findOne({
-    uniqueId: id,
-  });
+  try {
+    const uniquePost = await post.findOne({
+      uniqueId: id,
+    });
 
-  res.json({
-    uniquePost,
-  });
+    return res.json({
+      uniquePost,
+    });
+  } catch {
+    return res.json({
+      message: "Error finding post",
+    });
+  }
 });
 
 app.post("/createpost", async (req, res) => {
   const { success } = PostCreateSchema.safeParse(req.body);
 
   if (!success) {
-    res.status(411).json({
+    return res.status(401).json({
       error: "Invalid inputs!",
     });
   }
 
-  const postCreated = await post.create({
-    uniqueId: req.body.uniqueId,
-    title: req.body.title,
-  });
+  try {
+    const postCreated = await post.create({
+      uniqueId: req.body.uniqueId,
+      title: req.body.title,
+      color: req.body.color,
+    });
 
-  res.json({
-    postCreated,
-  });
+    return res.json({
+      postCreated,
+    });
+  } catch {
+    return res.json({
+      message: "Error creating post!",
+    });
+  }
 });
 
 app.post("/createsubpost", async (req, res) => {
   const { success } = SubPostCreateSchema.safeParse(req.body);
 
   if (!success) {
-    res.json({
+    return res.json({
       error: "Invalid inputs for creating subpost!",
     });
   }
@@ -73,12 +86,12 @@ app.post("/createsubpost", async (req, res) => {
     );
     console.log("New subpost added!");
 
-    res.json({
+    return res.json({
       message: "Sub post added!",
     });
   } catch {
     console.log("Error occured creating sub post");
-    res.status(411).json({
+    return res.status(411).json({
       message: "Error adding new subpost!",
     });
   }
