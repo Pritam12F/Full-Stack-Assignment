@@ -72,6 +72,10 @@ app.post("/createsubpost", async (req, res) => {
       }
     );
     console.log("New subpost added!");
+
+    res.json({
+      message: "Sub post added!",
+    });
   } catch {
     console.log("Error occured creating sub post");
     res.status(411).json({
