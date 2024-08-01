@@ -63,14 +63,13 @@ app.post("/createsubpost", async (req, res) => {
   }
 
   try {
-    const findPost = await post.findOneAndUpdate(
+    await post.findOneAndUpdate(
       {
         uniqueId: req.body.parentId,
       },
       {
         $push: { subPosts: req.body },
-      },
-      { new: true, useFindAndModify: false }
+      }
     );
     console.log("New subpost added!");
   } catch {
